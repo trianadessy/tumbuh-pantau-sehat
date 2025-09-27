@@ -129,4 +129,14 @@ All colors MUST be HSL for proper theming support.
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Ensure dropdowns have proper background and z-index */
+  [data-radix-select-content] {
+    background: hsl(var(--popover));
+    z-index: 50;
+  }
+  
+  [data-radix-popper-content-wrapper] {
+    z-index: 50;
+  }
 }

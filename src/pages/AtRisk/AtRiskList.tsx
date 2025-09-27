@@ -47,9 +47,9 @@ const mockAtRiskChildren = [
 
 const AtRiskList = () => {
   const navigate = useNavigate();
-  const [kecamatanFilter, setKecamatanFilter] = useState<string>("");
-  const [ageFilter, setAgeFilter] = useState<string>("");
-  const [riskTypeFilter, setRiskTypeFilter] = useState<string>("");
+  const [kecamatanFilter, setKecamatanFilter] = useState<string>("all");
+  const [ageFilter, setAgeFilter] = useState<string>("all");
+  const [riskTypeFilter, setRiskTypeFilter] = useState<string>("all");
 
   const getSLABadgeColor = (days: number) => {
     if (days <= 1) return "bg-destructive text-destructive-foreground";
@@ -92,7 +92,7 @@ const AtRiskList = () => {
                   <SelectValue placeholder="Kecamatan" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Semua Kecamatan</SelectItem>
+                  <SelectItem value="all">Semua Kecamatan</SelectItem>
                   <SelectItem value="citeureup">Citeureup</SelectItem>
                   <SelectItem value="cibinong">Cibinong</SelectItem>
                 </SelectContent>
@@ -103,7 +103,7 @@ const AtRiskList = () => {
                   <SelectValue placeholder="Kelompok Usia" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Semua Usia</SelectItem>
+                  <SelectItem value="all">Semua Usia</SelectItem>
                   <SelectItem value="6-12">6-12 bulan</SelectItem>
                   <SelectItem value="13-24">13-24 bulan</SelectItem>
                   <SelectItem value="25-36">25-36 bulan</SelectItem>
@@ -115,7 +115,7 @@ const AtRiskList = () => {
                   <SelectValue placeholder="Jenis Risiko" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Semua Jenis</SelectItem>
+                  <SelectItem value="all">Semua Jenis</SelectItem>
                   <SelectItem value="haz-decline">Penurunan HAZ</SelectItem>
                   <SelectItem value="weight-decline">Penurunan Berat</SelectItem>
                   <SelectItem value="stunting">Stunting</SelectItem>

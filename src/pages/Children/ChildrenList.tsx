@@ -76,10 +76,10 @@ const mockChildren = [
 const ChildrenList = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
-  const [ageFilter, setAgeFilter] = useState<string>("");
-  const [genderFilter, setGenderFilter] = useState<string>("");
-  const [villageFilter, setVillageFilter] = useState<string>("");
-  const [riskFilter, setRiskFilter] = useState<string>("");
+  const [ageFilter, setAgeFilter] = useState<string>("all");
+  const [genderFilter, setGenderFilter] = useState<string>("all");
+  const [villageFilter, setVillageFilter] = useState<string>("all");
+  const [riskFilter, setRiskFilter] = useState<string>("all");
 
   // Filter children based on search and filters
   const filteredChildren = mockChildren.filter((child) => {
@@ -88,15 +88,15 @@ const ChildrenList = () => {
       child.id.toLowerCase().includes(searchQuery.toLowerCase());
     
     const matchesAge = 
-      !ageFilter || 
+      !ageFilter || ageFilter === "all" ||
       (ageFilter === "0-12" && child.ageMonths <= 12) ||
       (ageFilter === "13-24" && child.ageMonths >= 13 && child.ageMonths <= 24) ||
       (ageFilter === "25-36" && child.ageMonths >= 25 && child.ageMonths <= 36) ||
       (ageFilter === "37+" && child.ageMonths >= 37);
     
-    const matchesGender = !genderFilter || child.gender === genderFilter;
-    const matchesVillage = !villageFilter || child.village === villageFilter;
-    const matchesRisk = !riskFilter || child.riskLevel === riskFilter;
+    const matchesGender = !genderFilter || genderFilter === "all" || child.gender === genderFilter;
+    const matchesVillage = !villageFilter || villageFilter === "all" || child.village === villageFilter;
+    const matchesRisk = !riskFilter || riskFilter === "all" || child.riskLevel === riskFilter;
 
     return matchesSearch && matchesAge && matchesGender && matchesVillage && matchesRisk;
   });
@@ -141,7 +141,7 @@ const ChildrenList = () => {
                   <SelectValue placeholder="Usia" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Semua Usia</SelectItem>
+                  <SelectItem value="all">Semua Usia</SelectItem>
                   <SelectItem value="0-12">0-12 bulan</SelectItem>
                   <SelectItem value="13-24">13-24 bulan</SelectItem>
                   <SelectItem value="25-36">25-36 bulan</SelectItem>
@@ -154,7 +154,7 @@ const ChildrenList = () => {
                   <SelectValue placeholder="Jenis Kelamin" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Semua</SelectItem>
+                  <SelectItem value="all">Semua</SelectItem>
                   <SelectItem value="Laki-laki">Laki-laki</SelectItem>
                   <SelectItem value="Perempuan">Perempuan</SelectItem>
                 </SelectContent>
@@ -165,7 +165,7 @@ const ChildrenList = () => {
                   <SelectValue placeholder="Desa" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Semua Desa</SelectItem>
+                  <SelectItem value="all">Semua Desa</SelectItem>
                   {uniqueVillages.map(village => (
                     <SelectItem key={village} value={village}>{village}</SelectItem>
                   ))}
@@ -177,7 +177,7 @@ const ChildrenList = () => {
                   <SelectValue placeholder="Status Risiko" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Semua Status</SelectItem>  
+                  <SelectItem value="all">Semua Status</SelectItem>  
                   <SelectItem value="normal">Normal</SelectItem>
                   <SelectItem value="berisiko">Berisiko</SelectItem>
                   <SelectItem value="stunting">Stunting</SelectItem>
