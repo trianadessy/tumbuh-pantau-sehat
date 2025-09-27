@@ -9,13 +9,16 @@ import { Separator } from "@/components/ui/separator";
 import AppLayout from "@/components/layout/AppLayout";
 import ConfidenceScore from "@/components/ui/confidence-score";
 import RiskBadge from "@/components/ui/risk-badge";
-import { Camera, Save, WifiOff } from "lucide-react";
+import AnthropometricCamera from "@/components/camera/AnthropometricCamera";
+import { Camera, Save, WifiOff, Scan } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface MeasurementData {
   weight: string;
   height: string;
   headCircumference: string;
+  bodyLength: string;
+  upperArmCircumference: string;
 }
 
 interface ZScores {
@@ -35,7 +38,8 @@ const VisitForm = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isOffline] = useState(true); // Mock offline state
-  const [confidenceScore] = useState(85);
+  const [confidenceScore, setConfidenceScore] = useState(85);
+  const [showCamera, setShowCamera] = useState(false);
   
   const [childInfo, setChildInfo] = useState<ChildInfo>({
     name: "",
@@ -47,7 +51,9 @@ const VisitForm = () => {
   const [measurements, setMeasurements] = useState<MeasurementData>({
     weight: "",
     height: "",
-    headCircumference: ""
+    headCircumference: "",
+    bodyLength: "",
+    upperArmCircumference: ""
   });
 
   // Mock calculated results
@@ -65,6 +71,18 @@ const VisitForm = () => {
 
   const handleMeasurementChange = (field: keyof MeasurementData, value: string) => {
     setMeasurements(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleCameraMeasurements = (aiMeasurements: any) => {
+    setMeasurements({
+      weight: aiMeasurements.weight.toString(),
+      height: aiMeasurements.height.toString(),
+      headCircumference: aiMeasurements.headCircumference.toString(),
+      bodyLength: aiMeasurements.bodyLength.toString(),
+      upperArmCircumference: aiMeasurements.upperArmCircumference.toString()
+    });
+    setConfidenceScore(aiMeasurements.confidence);
+    setShowCamera(false);
   };
 
   const handleSave = () => {
@@ -157,10 +175,38 @@ const VisitForm = () => {
           <CardHeader>
             <CardTitle className="text-lg">Pengukuran</CardTitle>
             <CardDescription>
-              Input hasil pengukuran dengan bantuan panduan kamera
+              Input hasil pengukuran manual atau gunakan AI scan
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
+            {/* AI Scan Button */}
+            <div className="text-center">
+              <Button 
+                onClick={() => setShowCamera(true)}
+                variant="outline" 
+                size="lg"
+                className="w-full"
+                data-testid="ai-scan-button"
+              >
+                <Scan className="h-5 w-5 mr-2" />
+                Scan AI Antropometrik
+              </Button>
+              <p className="text-xs text-muted-foreground mt-2">
+                Otomatis deteksi semua pengukuran dengan kamera
+              </p>
+            </div>
+
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">
+                  atau input manual
+                </span>
+              </div>
+            </div>
+
             {/* Weight */}
             <div className="space-y-2">
               <Label htmlFor="weight">Berat Badan (kg)</Label>
@@ -202,28 +248,46 @@ const VisitForm = () => {
               </p>
             </div>
 
-            {/* Head Circumference with Camera Guide */}
+            {/* Body Length */}
+            <div className="space-y-2">
+              <Label htmlFor="body-length">Panjang Badan (cm)</Label>
+              <Input
+                id="body-length"
+                type="number"
+                step="0.1"
+                value={measurements.bodyLength}
+                onChange={(e) => handleMeasurementChange("bodyLength", e.target.value)}
+                placeholder="0.0"
+                data-testid="body-length-input"
+              />
+            </div>
+
+            {/* Head Circumference */}
             <div className="space-y-2">
               <Label htmlFor="head-circumference">Lingkar Kepala (cm)</Label>
-              <div className="flex gap-2">
-                <Input
-                  id="head-circumference"
-                  type="number"
-                  step="0.1"
-                  value={measurements.headCircumference}
-                  onChange={(e) => handleMeasurementChange("headCircumference", e.target.value)}
-                  placeholder="0.0"
-                  className="flex-1"
-                  data-testid="head-circumference-input"
-                />
-                <Button 
-                  variant="outline" 
-                  className="px-3"
-                  data-testid="head-camera-button"
-                >
-                  <Camera className="h-4 w-4" />
-                </Button>
-              </div>
+              <Input
+                id="head-circumference"
+                type="number"
+                step="0.1"
+                value={measurements.headCircumference}
+                onChange={(e) => handleMeasurementChange("headCircumference", e.target.value)}
+                placeholder="0.0"
+                data-testid="head-circumference-input"
+              />
+            </div>
+
+            {/* Upper Arm Circumference */}
+            <div className="space-y-2">
+              <Label htmlFor="upper-arm-circumference">Lingkar Lengan Atas (cm)</Label>
+              <Input
+                id="upper-arm-circumference"
+                type="number"
+                step="0.1"
+                value={measurements.upperArmCircumference}
+                onChange={(e) => handleMeasurementChange("upperArmCircumference", e.target.value)}
+                placeholder="0.0"
+                data-testid="upper-arm-circumference-input"
+              />
             </div>
 
             {/* Confidence Score */}
@@ -300,6 +364,14 @@ const VisitForm = () => {
             Simpan
           </Button>
         </div>
+
+        {/* Camera Modal */}
+        {showCamera && (
+          <AnthropometricCamera
+            onMeasurementsDetected={handleCameraMeasurements}
+            onClose={() => setShowCamera(false)}
+          />
+        )}
       </div>
     </AppLayout>
   );
