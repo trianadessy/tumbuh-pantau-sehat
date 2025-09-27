@@ -22,6 +22,7 @@ export default {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          hover: "hsl(var(--primary-hover))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -30,6 +31,14 @@ export default {
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
+        },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
@@ -46,6 +55,30 @@ export default {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        // Tumbuh+ specific colors
+        status: {
+          normal: "hsl(var(--status-normal))",
+          "normal-foreground": "hsl(var(--status-normal-foreground))",
+          risk: "hsl(var(--status-risk))",
+          "risk-foreground": "hsl(var(--status-risk-foreground))",
+          stunting: "hsl(var(--status-stunting))",
+          "stunting-foreground": "hsl(var(--status-stunting-foreground))",
+        },
+        sync: {
+          online: "hsl(var(--sync-online))",
+          offline: "hsl(var(--sync-offline))",
+          syncing: "hsl(var(--sync-syncing))",
+          error: "hsl(var(--sync-error))",
+        },
+        "app-header": {
+          DEFAULT: "hsl(var(--app-header))",
+          foreground: "hsl(var(--app-header-foreground))",
+        },
+        "bottom-nav": {
+          DEFAULT: "hsl(var(--bottom-nav))",
+          foreground: "hsl(var(--bottom-nav-foreground))",
+          active: "hsl(var(--bottom-nav-active))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
