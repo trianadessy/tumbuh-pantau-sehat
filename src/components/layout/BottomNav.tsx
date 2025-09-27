@@ -1,38 +1,13 @@
-import { Home, Users, AlertTriangle, Heart, Settings } from "lucide-react";
+import { Home, Users, Camera, BarChart, Settings } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { 
-    to: "/", 
-    icon: Home, 
-    label: "Beranda", 
-    testId: "nav-beranda" 
-  },
-  { 
-    to: "/anak", 
-    icon: Users, 
-    label: "Anak", 
-    testId: "nav-anak" 
-  },
-  { 
-    to: "/risiko", 
-    icon: AlertTriangle, 
-    label: "Risiko", 
-    testId: "nav-risiko" 
-  },
-  { 
-    to: "/maternal", 
-    icon: Heart, 
-    label: "Maternal", 
-    testId: "nav-maternal" 
-  },
-  { 
-    to: "/pengaturan", 
-    icon: Settings, 
-    label: "Pengaturan", 
-    testId: "nav-pengaturan" 
-  },
+  { to: "/home", icon: Home, label: "Beranda", testId: "nav-home" },
+  { to: "/tasks", icon: Users, label: "Tugas", testId: "nav-tasks" },
+  { to: "/camera", icon: Camera, label: "Kamera", testId: "nav-camera" },
+  { to: "/reports", icon: BarChart, label: "Laporan", testId: "nav-reports" },
+  { to: "/profile", icon: Settings, label: "Profil", testId: "nav-profile" }
 ];
 
 const BottomNav = () => {

@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import AppLayout from "@/components/layout/AppLayout";
 import RiskBadge from "@/components/ui/risk-badge";
+import SLABadge from "@/components/ui/sla-badge";
 import { AlertTriangle, Clock, Play, CheckCircle, PauseCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -147,28 +148,22 @@ const AtRiskList = () => {
                 <CardContent className="p-4">
                   <div className="space-y-4">
                     {/* Header Info */}
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
-                          <h3 className="font-semibold">{child.name}</h3>
-                          <Badge variant="outline" className="text-xs">
-                            {child.id}
-                          </Badge>
-                          <RiskBadge level={child.riskLevel} />
-                        </div>
-                        <div className="text-sm text-muted-foreground">
-                          {child.age} • {child.village}
-                        </div>
-                      </div>
-                      
-                      <Badge 
-                        className={`${getSLABadgeColor(child.daysToDue)} flex items-center gap-1`}
-                        data-testid="sla-badge"
-                      >
-                        <Clock className="h-3 w-3" />
-                        {child.daysToDue} hari
-                      </Badge>
-                    </div>
+                     <div className="flex items-start justify-between">
+                       <div className="flex-1">
+                         <div className="flex items-center gap-3 mb-2">
+                           <h3 className="font-semibold">{child.name}</h3>
+                           <Badge variant="outline" className="text-xs">
+                             {child.id}
+                           </Badge>
+                           <RiskBadge level={child.riskLevel} />
+                         </div>
+                         <div className="text-sm text-muted-foreground">
+                           {child.age} • {child.village}
+                         </div>
+                       </div>
+                       
+                       <SLABadge daysRemaining={child.daysToDue} />
+                     </div>
 
                     {/* Risk Reason */}
                     <div className="bg-muted/50 p-3 rounded-lg">

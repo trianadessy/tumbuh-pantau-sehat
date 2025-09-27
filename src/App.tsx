@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 // Pages
 import Home from "./pages/Dashboard/Home";
@@ -11,7 +11,8 @@ import RoleSelection from "./pages/Auth/RoleSelection";
 import ChildrenList from "./pages/Children/ChildrenList";
 import VisitForm from "./pages/Children/VisitForm";
 import AtRiskList from "./pages/AtRisk/AtRiskList";
-import MaternalForm from "./pages/Maternal/MaternalForm";
+import CameraPage from "./pages/Camera/CameraPage";
+import ReportsPage from "./pages/Reports/ReportsPage";
 import Settings from "./pages/Settings/Settings";
 import NotFound from "./pages/NotFound";
 
@@ -29,13 +30,18 @@ const App = () => (
           <Route path="/peran" element={<RoleSelection />} />
           
           {/* Main App Routes */}
-          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Navigate to="/home" replace />} />
+          <Route path="/tasks" element={<AtRiskList />} />
+          <Route path="/camera" element={<CameraPage />} />
+          <Route path="/reports" element={<ReportsPage />} />
+          <Route path="/profile" element={<Settings />} />
+          
+          {/* Legacy routes for compatibility */}
           <Route path="/anak" element={<ChildrenList />} />
           <Route path="/anak/kunjungan-baru" element={<VisitForm />} />
           <Route path="/risiko" element={<AtRiskList />} />
-          <Route path="/maternal" element={<MaternalForm />} />
           <Route path="/pengaturan" element={<Settings />} />
-          <Route path="/ekspor" element={<div>Export Screen - Coming Soon</div>} />
           
           {/* Catch-all */}
           <Route path="*" element={<NotFound />} />

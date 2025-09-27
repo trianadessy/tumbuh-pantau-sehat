@@ -12,7 +12,8 @@ import {
   RefreshCw, 
   Calendar,
   TrendingUp,
-  Users
+  Users,
+  Camera
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -22,45 +23,6 @@ const Home = () => {
   const { toast } = useToast();
   const [syncStatus, setSyncStatus] = useState<"online" | "offline" | "syncing" | "error">("online");
   const [lastSync] = useState("12 Nov 2024, 14:30");
-
-  const quickActions = [
-    {
-      title: "Tambah Pengukuran",
-      description: "Input data pengukuran baru",
-      icon: Plus,
-      color: "bg-primary",
-      textColor: "text-primary-foreground",
-      action: () => navigate("/anak/kunjungan-baru"),
-      testId: "quick-action-measurement"
-    },
-    {
-      title: "Cari Anak",
-      description: "Temukan data anak",
-      icon: Search,
-      color: "bg-accent",
-      textColor: "text-accent-foreground",
-      action: () => navigate("/anak"),
-      testId: "quick-action-search"
-    },
-    {
-      title: "At-Risk Minggu Ini",
-      description: "3 anak perlu tindak lanjut",
-      icon: AlertTriangle,
-      color: "bg-status-risk",
-      textColor: "text-status-risk-foreground",
-      action: () => navigate("/risiko"),
-      testId: "quick-action-risk"
-    },
-    {
-      title: "Ekspor e-PPGBM",
-      description: "Unduh laporan bulanan",
-      icon: Download,
-      color: "bg-secondary",
-      textColor: "text-secondary-foreground",
-      action: () => navigate("/ekspor"),
-      testId: "quick-action-export"
-    }
-  ];
 
   const handleSync = async () => {
     setSyncStatus("syncing");
@@ -75,10 +37,49 @@ const Home = () => {
     }, 2000);
   };
 
+  const quickActions = [
+    {
+      title: "Pindai",
+      description: "Pengukuran kamera",
+      icon: Camera,
+      color: "bg-primary",
+      textColor: "text-primary-foreground",
+      action: () => navigate("/camera"),
+      testId: "quick-action-camera"
+    },
+    {
+      title: "Cari Kasus",
+      description: "Riwayat anak",
+      icon: Search,
+      color: "bg-accent",
+      textColor: "text-accent-foreground",
+      action: () => navigate("/anak"),
+      testId: "quick-action-search"
+    },
+    {
+      title: "Ekspor e-PPGBM",
+      description: "Unduh laporan",
+      icon: Download,
+      color: "bg-secondary",
+      textColor: "text-secondary-foreground",
+      action: () => navigate("/reports"),
+      testId: "quick-action-export"
+    },
+    {
+      title: "Sinkronkan",
+      description: "Sinkron data",
+      icon: RefreshCw,
+      color: "bg-muted",
+      textColor: "text-muted-foreground",
+      action: handleSync,
+      testId: "quick-action-sync"
+    }
+  ];
+
   const stats = [
-    { label: "Total Anak", value: "247", icon: Users, color: "text-primary" },
-    { label: "Pengukuran Bulan Ini", value: "52", icon: TrendingUp, color: "text-accent" },
-    { label: "At-Risk Aktif", value: "8", icon: AlertTriangle, color: "text-status-risk" }
+    { label: "Anak Dipantau", value: "156", icon: Users, color: "text-primary" },
+    { label: "% Tindak Lanjut ≤14 Hari", value: "87%", icon: TrendingUp, color: "text-success" },
+    { label: "Flag Aktif", value: "23", icon: AlertTriangle, color: "text-warning" }
   ];
 
   return (
@@ -181,7 +182,7 @@ const Home = () => {
                 <Button 
                   variant="link" 
                   className="p-0 h-auto text-status-risk hover:text-status-risk/80 mt-2"
-                  onClick={() => navigate("/risiko")}
+                  onClick={() => navigate("/tasks")}
                 >
                   Lihat Detail →
                 </Button>
