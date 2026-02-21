@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Clock } from "lucide-react";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 interface SLABadgeProps {
   daysRemaining: number;
@@ -8,6 +9,8 @@ interface SLABadgeProps {
 }
 
 export const SLABadge = ({ daysRemaining, className }: SLABadgeProps) => {
+  const { t } = useLanguage();
+
   const getVariant = () => {
     if (daysRemaining <= 1) return "destructive";
     if (daysRemaining <= 3) return "outline";
@@ -15,16 +18,13 @@ export const SLABadge = ({ daysRemaining, className }: SLABadgeProps) => {
   };
 
   const getText = () => {
-    if (daysRemaining === 0) return "Hari ini";
-    if (daysRemaining === 1) return "1 hari";
-    return `${daysRemaining} hari`;
+    if (daysRemaining < 0) return t("sla.overdue");
+    if (daysRemaining === 0) return t("sla.dueToday");
+    return t("sla.daysRemaining", { days: daysRemaining });
   };
 
   return (
-    <Badge 
-      variant={getVariant()} 
-      className={cn("flex items-center gap-1 text-xs", className)}
-    >
+    <Badge variant={getVariant()} className={cn("flex items-center gap-1 text-xs", className)}>
       <Clock className="h-3 w-3" />
       {getText()}
     </Badge>

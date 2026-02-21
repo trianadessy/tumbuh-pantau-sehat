@@ -1,5 +1,6 @@
 import { Wifi, WifiOff, Cloud, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 interface SyncStatusProps {
   status: "online" | "offline" | "syncing" | "error";
@@ -7,35 +8,13 @@ interface SyncStatusProps {
 }
 
 const SyncStatus = ({ status, className }: SyncStatusProps) => {
+  const { t } = useLanguage();
+  
   const statusConfig = {
-    online: { 
-      icon: Wifi, 
-      text: "Online", 
-      bgColor: "bg-sync-online",
-      textColor: "text-white",
-      animate: false
-    },
-    offline: { 
-      icon: WifiOff, 
-      text: "Offline", 
-      bgColor: "bg-sync-offline",
-      textColor: "text-white",
-      animate: false
-    },
-    syncing: { 
-      icon: Loader2, 
-      text: "Menyinkronkan", 
-      bgColor: "bg-sync-syncing",
-      textColor: "text-white",
-      animate: true
-    },
-    error: { 
-      icon: WifiOff, 
-      text: "Gagal Sinkron", 
-      bgColor: "bg-sync-error",
-      textColor: "text-white",
-      animate: false
-    },
+    online: { icon: Wifi, textKey: "sync.online" as const, bgColor: "bg-sync-online", animate: false },
+    offline: { icon: WifiOff, textKey: "sync.offline" as const, bgColor: "bg-sync-offline", animate: false },
+    syncing: { icon: Loader2, textKey: "sync.syncing" as const, bgColor: "bg-sync-syncing", animate: true },
+    error: { icon: WifiOff, textKey: "sync.error" as const, bgColor: "bg-sync-error", animate: false },
   };
 
   const config = statusConfig[status];
@@ -43,16 +22,12 @@ const SyncStatus = ({ status, className }: SyncStatusProps) => {
 
   return (
     <div className={cn(
-      "inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium",
+      "inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium text-white",
       config.bgColor,
-      config.textColor,
       className
     )}>
-      <Icon 
-        size={12} 
-        className={config.animate ? "animate-spin" : ""} 
-      />
-      <span>{config.text}</span>
+      <Icon size={12} className={config.animate ? "animate-spin" : ""} />
+      <span>{t(config.textKey)}</span>
     </div>
   );
 };
@@ -71,7 +46,6 @@ const AppHeader = ({ syncStatus = "online", showSyncStatus = true }: AppHeaderPr
       <div className="flex items-center gap-3">
         <h1 className="text-lg font-semibold">Tumbuh+</h1>
       </div>
-      
       {showSyncStatus && (
         <div className="flex items-center gap-2">
           <SyncStatus status={syncStatus} />

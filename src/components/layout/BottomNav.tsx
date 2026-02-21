@@ -1,16 +1,19 @@
 import { Home, Users, Camera, BarChart, Settings } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { cn } from "@/lib/utils";
-
-const navItems = [
-  { to: "/home", icon: Home, label: "Beranda", testId: "nav-home" },
-  { to: "/tasks", icon: Users, label: "Tugas", testId: "nav-tasks" },
-  { to: "/camera", icon: Camera, label: "Kamera", testId: "nav-camera" },
-  { to: "/reports", icon: BarChart, label: "Laporan", testId: "nav-reports" },
-  { to: "/profile", icon: Settings, label: "Profil", testId: "nav-profile" }
-];
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const BottomNav = () => {
+  const { t } = useLanguage();
+
+  const navItems = [
+    { to: "/home", icon: Home, label: t("nav.home"), testId: "nav-home" },
+    { to: "/tasks", icon: Users, label: t("nav.tasks"), testId: "nav-tasks" },
+    { to: "/camera", icon: Camera, label: t("nav.camera"), testId: "nav-camera" },
+    { to: "/reports", icon: BarChart, label: t("nav.reports"), testId: "nav-reports" },
+    { to: "/profile", icon: Settings, label: t("nav.profile"), testId: "nav-profile" }
+  ];
+
   return (
     <nav 
       className="bg-bottom-nav border-t border-border fixed bottom-0 left-0 right-0 z-50"
